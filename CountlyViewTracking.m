@@ -245,15 +245,17 @@ NSString* const kCountlyVTKeyDur      = @"dur";
     if (!viewController)
         return nil;
 
-    NSString* title = viewController.title;
+    NSString* title = NSStringFromClass(viewController.class);
 
-    if (!title)
-        title = [viewController.navigationItem.titleView isKindOfClass:UILabel.class] ? ((UILabel *)viewController.navigationItem.titleView).text : nil;
+    NSString *title2 =  [viewController.navigationItem.titleView isKindOfClass:UILabel.class]
+        ? ((UILabel *)viewController.navigationItem.titleView).text
+        : nil;
+    
+    if (!title2) {
+        return title;
+    } 
 
-    if (!title)
-        title = NSStringFromClass(viewController.class);
-
-    return title;
+    return [NSString stringWithFormat:@"%@/%@", title, title2];;
 }
 
 #endif
